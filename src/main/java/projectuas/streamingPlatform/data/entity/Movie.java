@@ -1,14 +1,12 @@
 package projectuas.streamingPlatform.data.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
 @Getter
 @Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -27,6 +25,9 @@ public class Movie {
 
     @Column(nullable = false)
     private Integer durationInMinute;
+
+    @Column(nullable = false)
+    private String year;
 
     @Column(nullable = false)
     private String trailerLink;

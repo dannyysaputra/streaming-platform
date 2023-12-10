@@ -11,20 +11,31 @@
 <form action="#" th:action="@{/movie-form/save}" th:object="${movies}" method="post">
     <label for="moviename">Movie Name:</label><br>
     <input type="text" id="moviename" th:field="*{movies.movieName}"><br>
+
     <label for="description">Description:</label><br>
     <textarea id="description" th:field="*{movies.description}"></textarea><br>
+
     <label for="durationinminute">Duration (in minutes):</label><br>
     <input type="number" id="durationinminute" th:field="*{movies.durationInMinute}"><br>
+
+    <label for="year">Movie year:</label><br>
+    <input type="number" id="year" th:field="*{movies.year}"><br>
+
     <label for="trailerlink">Trailer Link:</label><br>
     <input type="text" id="trailerlink" th:field="*{movies.trailerLink}"><br>
+
     <label for="movieposterurl">Movie Poster URL:</label><br>
     <input type="text" id="movieposterurl" th:field="*{movies.moviePosterUrl}"><br>
+
     <label for="moviebackdropurl">Movie Backdrop URL:</label><br>
-    <input type="text" id="moviebackdropurl" th:field="*{movies.movieBackDropurl}"><br>
+    <input type="text" id="moviebackdropurl" th:field="*{movies.movieBackdropUrl}"><br>
+
     <label for="movietags">Movie Tags:</label><br>
     <input type="text" id="movietags" th:field="*{movies.movieTags}"><br>
+
     <label for="genres">Genres:</label><br>
     <input type="text" id="genres" th:field="*{movies.genre}"><br>
+
     <input type="submit" value="Submit">
 </form>
 </body>

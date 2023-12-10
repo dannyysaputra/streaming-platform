@@ -13,6 +13,7 @@
         <th>Movie Name</th>
         <th>Description</th>
         <th>Duration (in minutes)</th>
+        <th>Year</th>
         <th>Trailer Link</th>
         <th>Movie Poster URL</th>
         <th>Movie Backdrop URL</th>
@@ -23,11 +24,12 @@
         <td th:text="${movie.movieName}"></td>
         <td th:text="${movie.description}"></td>
         <td th:text="${movie.durationInMinute}"></td>
+        <td th:text="${movie.year}"></td>
         <td th:text="${movie.trailerLink}"></td>
         <td th:text="${movie.moviePosterUrl}"></td>
         <td th:text="${movie.movieBackdropUrl}"></td>
         <td th:text="${movie.movieTags}"></td>
-        <td th:text="${movie.genres}"></td>
+        <td th:text="${movie.genre}"></td>
     </tr>
 </table>
 </body>

@@ -9,11 +9,9 @@ import java.util.List;
 @Service
 public class MovieServiceImpl implements MovieService {
     private MovieRepository movieRepository;
-//    private MovieService movieService;
 
     public MovieServiceImpl(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-//        this.movieService = movieService;
     }
 
     @Override
@@ -39,6 +37,7 @@ public class MovieServiceImpl implements MovieService {
             movie.setMovieBackdropUrl(updatedMovie.getMovieBackdropUrl());
             movie.setMoviePosterUrl(updatedMovie.getMoviePosterUrl());
             movie.setGenre(updatedMovie.getGenre());
+            movie.setYear(updatedMovie.getYear());
             movie.setDurationInMinute(updatedMovie.getDurationInMinute());
             movie.setTrailerLink(updatedMovie.getTrailerLink());
             movie.setDescription(updatedMovie.getDescription());
