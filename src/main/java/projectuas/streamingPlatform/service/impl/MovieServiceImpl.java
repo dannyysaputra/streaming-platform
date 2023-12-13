@@ -1,18 +1,24 @@
 package projectuas.streamingPlatform.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
+import projectuas.streamingPlatform.data.entity.Genre;
 import projectuas.streamingPlatform.data.entity.Movie;
+import projectuas.streamingPlatform.data.repository.GenreRepository;
 import projectuas.streamingPlatform.data.repository.MovieRepository;
+import projectuas.streamingPlatform.service.GenreService;
 import projectuas.streamingPlatform.service.MovieService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MovieServiceImpl implements MovieService {
     private MovieRepository movieRepository;
+    private GenreRepository genreRepository;
+
+    @Autowired
+    private GenreService genreService;
 
     public MovieServiceImpl(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
@@ -29,24 +35,18 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie pushMovie(Movie newMovie) {
-        return movieRepository.save(newMovie);
-    }
+    public Movie pushMovie(Movie newMovie, Long genreId) {
+        Genre genre = genreService.getGenreById(genreId);
 
-//    @Override
-//    public List<Movie> getByMovieName(String movieName) {
-////        return movieRepository.findByMovieNameContaining(movieName);
-//        List<Movie> movies = getByMovieNameAsc();
-//        int index = binarySearchByMovieName(movies, movieName);
-//
-//        if (index != -1) {
-//            List<Movie> res = new ArrayList<>();
-//            res.add(movies.get(index));
-//            return res;
-//        } else {
-//            return Collections.emptyList();
-//        }
-//    }
+        if (genre != null) {
+            newMovie.addGenre(genre);
+            genre.addMovie(newMovie);
+
+            return movieRepository.save(newMovie);
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public List<Movie> getByMovieName(String keyword) {
@@ -204,12 +204,21 @@ public class MovieServiceImpl implements MovieService {
             movie.setYear(updatedMovie.getYear());
             movie.setMovieBackdropUrl(updatedMovie.getMovieBackdropUrl());
             movie.setMoviePosterUrl(updatedMovie.getMoviePosterUrl());
-            movie.setGenre(updatedMovie.getGenre());
             movie.setDurationInMinute(updatedMovie.getDurationInMinute());
             movie.setRating(updatedMovie.getRating());
             movie.setTrailerLink(updatedMovie.getTrailerLink());
             movie.setDescription(updatedMovie.getDescription());
             movie.setMovieTags(updatedMovie.getMovieTags());
+
+            movie.getGenres().clear(); // Remove existing genres
+
+            for (Genre genre : updatedMovie.getGenres()) {
+                Genre existingGenre = genreRepository.findById(genre.getId()).orElse(null);
+                if (existingGenre != null) {
+                    movie.addGenre(existingGenre); // Add updated genres to the movie
+                }
+            }
+            
             return movieRepository.save(movie);
         }).orElse(null);
     }

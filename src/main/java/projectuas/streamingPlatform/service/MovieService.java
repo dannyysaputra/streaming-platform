@@ -10,7 +10,7 @@ public interface MovieService {
 
     Movie getMovieById(Long movie_id);
 
-    Movie pushMovie(Movie newMovie);
+    Movie pushMovie(Movie newMovie, Long genreId);
 
     Movie updateMovie(Movie updatedMovie, Long movie_id);
 

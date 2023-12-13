@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +28,9 @@
     <label for="movietags">Movie Tags:</label><br>
     <input type="text" id="movietags" th:field="${movies.movieTags}"><br>
     <label for="genres">Genres:</label><br>
-    <input type="text" id="genres" th:field="${movies.genre}"><br>
+    <select id="genres" name="genreId" path="genreId">
+        <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
+    </select><br>
     <input type="submit" value="Submit">
 </form>
 </body>

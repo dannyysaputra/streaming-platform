@@ -1,37 +1,67 @@
 package projectuas.streamingPlatform.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import projectuas.streamingPlatform.data.entity.Genre;
 import projectuas.streamingPlatform.data.entity.Movie;
+import projectuas.streamingPlatform.service.GenreService;
 import projectuas.streamingPlatform.service.MovieService;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Controller
 public class MovieController {
 
     private MovieService movieService;
+    private GenreService genreService;
 
-    public MovieController(MovieService movieService) {
+    @Autowired
+    public MovieController(MovieService movieService, GenreService genreService) {
         this.movieService = movieService;
+        this.genreService = genreService;
     }
 
     @GetMapping("/movie-form")
     public String showMovieForm(Model model){
         Movie movie = new Movie();
         model.addAttribute("movies", movie);
+        model.addAttribute("genres", genreService.getAllGenres());
         return "movie-form";
     }
 
     @PostMapping("/movie-form/save")
     public String addMovie(@Valid @ModelAttribute("movies") Movie movie,
+                           @RequestParam("genreId") Long genreId,
                            BindingResult result,
                            Model model) {
-        movieService.pushMovie(movie);
-        return "redirect:/movie";
+        if (result.hasErrors()) {
+            return "movie-form";
+        }
+
+        Movie savedMovie = movieService.pushMovie(movie, genreId);
+        return "movie-form";
+
+//        Genre genre = genreService.getGenreById(genreId);
+//
+//        if (genre != null) {
+//            movie.setGenres(new HashSet<>(Arrays.asList(genre)));
+//
+//            Movie savedMovie = movieService.pushMovie(movie);
+//
+//            if (savedMovie != null) {
+//                return "redirect:/movie";
+//            } else {
+//                return "movie-form";
+//            }
+//        } else {
+//            return "movie-form";
+//        }
     }
 
     @GetMapping("/movie-details/{id}")
